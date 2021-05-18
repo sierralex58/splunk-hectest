@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration>
+    <Properties>
+        <Property name="splunkPattern">date_time="%d{ISO8601_OFFSET_DATE_TIME_HHCMM}" severity="%p" %m%n</Property>
+    </Properties>
+
+    <Appenders>
+
+
+        <Console name="Console">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <Console name="ConsoleJson">
+            <JsonLayout complete="true" compact="false" />
+        </Console>
+
+        <SplunkHttp name="HttpSplunk" url="<url>"
+                    token="<token>"
+                    index="<index>"
+                    sourcetype="<sourcetype>"
+                    disableCertificateValidation="true"
+                    source="<source>"
+                    host="${env:HOSTNAME}"
+                    eventBodySerializer="gci.collector.log4j.JsonEventSerializer"
+                    eventHeaderSerializer="gci.collector.log4j.JsonEventSerializer">
+
+
+            <PatternLayout>
+                <Pattern>${splunkPattern}</Pattern>
+            </PatternLayout>
+        </SplunkHttp>
+        <SplunkHttp name="HttpSplunkJson" url="<url>"
+                    token="<token>"
+                    index="<index>"
+                    sourcetype="<sourcetype>"
+                    disableCertificateValidation="true"
+                    source="<source>"
+                    host="${env:HOSTNAME}">
+
+            <JsonLayout complete="true" compact="false" />
+
+        </SplunkHttp>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+            <!-- <AppenderRef ref="HttpSplunk"/> -->
+            <AppenderRef ref="HttpSplunkJson"/>
+        </Root>
+    </Loggers>
+</Configuration>
