@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<Configuration>
+<Configuration packages="com.splunk.logging">
     <Properties>
         <Property name="splunkPattern">date_time="%d{ISO8601_OFFSET_DATE_TIME_HHCMM}" severity="%p" %m%n</Property>
     </Properties>
